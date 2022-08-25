@@ -22,7 +22,7 @@ class LowestPriceEnquiry implements PromotionEnquiryInterface
 
     private ?int $price;
 
-    private ?int $discountedPrice;
+    private ?float $discountedPrice;
 
     private ?int $promotionId;
 
@@ -127,17 +127,17 @@ class LowestPriceEnquiry implements PromotionEnquiryInterface
     }
 
     /**
-     * @return int|null
+     * @return float|null
      */
-    public function getDiscountedPrice(): ?int
+    public function getDiscountedPrice(): ?float
     {
         return $this->discountedPrice;
     }
 
     /**
-     * @param int|null $discountedPrice
+     * @param float|null $discountedPrice
      */
-    public function setDiscountedPrice(?int $discountedPrice): void
+    public function setDiscountedPrice(?float $discountedPrice): void
     {
         $this->discountedPrice = $discountedPrice;
     }

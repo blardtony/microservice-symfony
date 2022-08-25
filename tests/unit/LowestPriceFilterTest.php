@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\unit;
 
 use App\DTO\LowestPriceEnquiry;
+use App\Entity\Product;
 use App\Entity\Promotion;
 use App\Filter\LowestPriceFilter;
 use App\Tests\ServiceTestCase;
@@ -13,16 +14,21 @@ class LowestPriceFilterTest extends ServiceTestCase
 {
     public function testLowestPricePromotionsFilteringIsAppliedCorrectly()
     {
-        $enquiry = new LowestPriceEnquiry();
+        $product = new Product();
+        $product->setPrice(100);
 
+        $enquiry = new LowestPriceEnquiry();
+        $enquiry->setProduct($product);
+        $enquiry->setQuantity(5);
+        $enquiry->setRequestDate('2022-11-27');
+        $enquiry->setVoucherCode('OU812');
         $promotions = $this->promotionsDataProvider();
 
         $lowestPriceFilter = $this->container->get(LowestPriceFilter::class);
 
         $filteredEnquiry = $lowestPriceFilter->apply($enquiry, ...$promotions);
-
-        $this->assertSame(100, $filteredEnquiry->getPrice());
-        $this->assertSame(50, $filteredEnquiry->getDiscountedPrice());
+        $this->assertEquals(100, $filteredEnquiry->getPrice());
+        $this->assertEquals(250, $filteredEnquiry->getDiscountedPrice());
         $this->assertSame('Black Friday half price sale', $filteredEnquiry->getPromotionName());
     }
 
