@@ -20,14 +20,15 @@ class LowestPriceFilterTest extends ServiceTestCase
         $enquiry = new LowestPriceEnquiry();
         $enquiry->setProduct($product);
         $enquiry->setQuantity(5);
+        $enquiry->setRequestDate('2022-11-27');
+        $enquiry->setVoucherCode('OU812');
         $promotions = $this->promotionsDataProvider();
 
         $lowestPriceFilter = $this->container->get(LowestPriceFilter::class);
 
         $filteredEnquiry = $lowestPriceFilter->apply($enquiry, ...$promotions);
-//        dd($filteredEnquiry);
-        $this->assertSame(100, $filteredEnquiry->getPrice());
-        $this->assertSame(250, $filteredEnquiry->getDiscountedPrice());
+        $this->assertEquals(100, $filteredEnquiry->getPrice());
+        $this->assertEquals(250, $filteredEnquiry->getDiscountedPrice());
         $this->assertSame('Black Friday half price sale', $filteredEnquiry->getPromotionName());
     }
 

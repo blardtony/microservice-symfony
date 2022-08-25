@@ -9,7 +9,7 @@ use App\Entity\Product;
 use App\Entity\Promotion;
 use App\Filter\LowestPriceFilter;
 use App\Filter\Modifier\DateRangeMultiplier;
-use App\Filter\Modifier\EvenItemMultiplier;
+use App\Filter\Modifier\EvenItemsMultiplier;
 use App\Filter\Modifier\FixedPriceVoucher;
 use App\Tests\ServiceTestCase;
 
@@ -58,7 +58,7 @@ class PriceModifierTest extends ServiceTestCase
             ->setCriteria(["minimum_quantity" => 2])
             ->setType("even_items_multiplier");
 
-        $evenItemMultiplier = new EvenItemMultiplier();
+        $evenItemMultiplier = new EvenItemsMultiplier();
         $modifiedPrice = $evenItemMultiplier->modify(100, 5, $promotion, $enquiry);
 
         $this->assertEquals(300, $modifiedPrice);
