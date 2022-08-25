@@ -4,12 +4,11 @@ declare(strict_types=1);
 
 namespace App\Filter;
 
-use App\DTO\LowestPriceEnquiry;
-use App\DTO\PromotionEnquiryInterface;
+use App\DTO\PriceEnquiryInterface;
 use App\Entity\Promotion;
 use App\Filter\Modifier\Factory\PriceModifierFactoryInterface;
 
-class LowestPriceFilter implements PromotionsFilterInterface
+class LowestPriceFilter implements PriceFilterInterface
 {
     public function __construct(private readonly PriceModifierFactoryInterface $priceModifierFactory)
     {
@@ -17,11 +16,11 @@ class LowestPriceFilter implements PromotionsFilterInterface
 
 
     /**
-     * @param LowestPriceEnquiry $enquiry
+     * @param PriceEnquiryInterface $enquiry
      * @param Promotion ...$promotions
-     * @return PromotionEnquiryInterface
+     * @return PriceEnquiryInterface
      */
-    public function apply(PromotionEnquiryInterface $enquiry, Promotion ...$promotions): PromotionEnquiryInterface
+    public function apply(PriceEnquiryInterface $enquiry, Promotion ...$promotions): PriceEnquiryInterface
     {
 
         $price = $enquiry->getProduct()->getPrice();
