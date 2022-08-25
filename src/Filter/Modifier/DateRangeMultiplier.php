@@ -21,7 +21,7 @@ class DateRangeMultiplier implements PriceModifierInterface
     public function modify(int $price, int $quantity, Promotion $promotion, PromotionEnquiryInterface $enquiry): float
     {
         $requestDate = date_create($enquiry->getRequestDate());
-        $from = date_create($promotion->getCriteria()['form']);
+        $from = date_create($promotion->getCriteria()['from']);
         $to = date_create($promotion->getCriteria()['to']);
         $total = $price * $quantity;
 
