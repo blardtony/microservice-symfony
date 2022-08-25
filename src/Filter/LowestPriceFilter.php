@@ -25,20 +25,23 @@ class LowestPriceFilter implements PromotionsFilterInterface
     {
 
         $price = $enquiry->getProduct()->getPrice();
+        $enquiry->setPrice($price);
         $quantity = $enquiry->getQuantity();
         $lowestPrice = $quantity * $price;
 
         foreach ($promotions as $promotion) {
 
             $priceModifier = $this->priceModifierFactory->create($promotion->getType());
-//            dd($priceModifier);
+
             $modifiedPrice = $priceModifier->modify($price, $quantity, $promotion, $enquiry);
+
+            if ($modifiedPrice < $lowestPrice) {
+                $enquiry->setDiscountedPrice($modifiedPrice);
+                $enquiry->setPromotionId($promotion->getId());
+                $enquiry->setPromotionName($promotion->getName());
+                $lowestPrice = $modifiedPrice;
+            }
         }
-//        $priceModifier = ;
-        $enquiry->setDiscountedPrice(250);
-        $enquiry->setPrice(100);
-        $enquiry->setPromotionId(3);
-        $enquiry->setPromotionName('Black Friday half price sale');
 
         return $enquiry;
     }
