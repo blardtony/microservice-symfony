@@ -11,6 +11,10 @@ use App\Filter\Modifier\Factory\PriceModifierFactoryInterface;
 
 class LowestPriceFilter implements PromotionsFilterInterface
 {
+    public function __construct(private readonly PriceModifierFactoryInterface $priceModifierFactory)
+    {
+    }
+
 
     /**
      * @param LowestPriceEnquiry $enquiry
@@ -24,8 +28,13 @@ class LowestPriceFilter implements PromotionsFilterInterface
         $quantity = $enquiry->getQuantity();
         $lowestPrice = $quantity * $price;
 
+        foreach ($promotions as $promotion) {
+
+            $priceModifier = $this->priceModifierFactory->create($promotion->getType());
+//            dd($priceModifier);
+            $modifiedPrice = $priceModifier->modify($price, $quantity, $promotion, $enquiry);
+        }
 //        $priceModifier = ;
-//        $modifiedPrice = $priceModifier->modifiy($price, $quantity, $promotion, $enquiry);
         $enquiry->setDiscountedPrice(250);
         $enquiry->setPrice(100);
         $enquiry->setPromotionId(3);
