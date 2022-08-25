@@ -7,7 +7,7 @@ namespace App\Filter\Modifier;
 use App\DTO\PromotionEnquiryInterface;
 use App\Entity\Promotion;
 
-class EvenItemMultiplier implements PriceModifierInterface
+class EvenItemsMultiplier implements PriceModifierInterface
 {
 
     public function modify(int $price, int $quantity, Promotion $promotion, PromotionEnquiryInterface $enquiry): float
