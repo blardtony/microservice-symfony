@@ -29,4 +29,11 @@ class ExceptionData extends HttpException
     {
         return $this->type;
     }
+    public function toArray(): array
+    {
+        return [
+            'type' => $this->getType()
+        ];
+    }
+
 }
