@@ -22,7 +22,7 @@ class PriceModifierTest extends ServiceTestCase
         $enquiry->setRequestDate("2022-11-27");
         $promotion = (new Promotion())->setName('Black Friday half price sale')
             ->setAdjustment(0.5)
-            ->setCriteria(["form" => "2022-11-25", "to" => "2022-11-28"])
+            ->setCriteria(["from" => "2022-11-25", "to" => "2022-11-28"])
             ->setType("date_range_multiplier");
         $dateRangeModifier = new DateRangeMultiplier();
 

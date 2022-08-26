@@ -32,32 +32,23 @@ class ProductController extends AbstractController
     #[Route('/{id}/lowest-price', name: 'lowest-price', methods: ['POST'])]
     public function lowestPrice(Request $request, int $id, DTOSerializer $serializer, PromotionsFilterInterface $promotionsFilter, CacheInterface $cache, PromotionCache $promotionCache): Response
     {
-        if ($request->headers->has('force-fail')) {
-            return new JsonResponse(
-                [
-                    'error' => 'Promotions Engine failure message'
-                ],
-                $request->headers->get('force_fail')
-            );
-        }
-
         /** @var LowestPriceEnquiry $lowestPriceEnquiry */
         $lowestPriceEnquiry = $serializer->deserialize($request->getContent(), LowestPriceEnquiry::class, 'json');
 
-        $product = $this->productRepository->find($id);
+        $product = $this->productRepository->findOrFail($id);
 
         $lowestPriceEnquiry->setProduct($product);
 
         $promotions = $promotionCache->findValidForProduct($product, $lowestPriceEnquiry->getRequestDate());
-//        dd($promotions);
+
         $modifiedEnquiry = $promotionsFilter->apply($lowestPriceEnquiry, ...$promotions);
 
         $responseContent = $serializer->serialize($modifiedEnquiry, 'json');
 
-        return new Response(
-            $responseContent,
-            200,
-            ['Content-Type' => 'application/json']
+        return new JsonResponse(
+            data: $responseContent,
+            status: Response::HTTP_OK,
+            json: true
         );
     }
 }
