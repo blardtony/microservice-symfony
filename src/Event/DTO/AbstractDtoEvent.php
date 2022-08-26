@@ -10,15 +10,15 @@ use Symfony\Contracts\EventDispatcher\Event;
 abstract class AbstractDtoEvent extends Event
 {
 
-    public function __construct(private PromotionEnquiryInterface $enquiry)
+    public function __construct(private PromotionEnquiryInterface $dto)
     {
     }
 
     /**
      * @return PromotionEnquiryInterface
      */
-    public function getEnquiry(): PromotionEnquiryInterface
+    public function getDto(): PromotionEnquiryInterface
     {
-        return $this->enquiry;
+        return $this->dto;
     }
 }
